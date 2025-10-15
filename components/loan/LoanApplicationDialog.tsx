@@ -143,10 +143,10 @@ export function LoanApplicationDialog({ isOpen, onClose, token, onSuccess }: Loa
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff9933] outline-none"
                   >
                     <option value="debt_consolidation">รวมหนี้</option>
-                    <option value="credit_card">บัตรเครดิต</option>
-                    <option value="home_improvement">ปรับปรุงบ้าน</option>
-                    <option value="educational">การศึกษา</option>
                     <option value="small_business">ธุรกิจขนาดเล็ก</option>
+                    <option value="educational">การศึกษา</option>
+                    <option value="all_other">อื่นๆ</option>
+                    
                   </select>
                 </div>
 
