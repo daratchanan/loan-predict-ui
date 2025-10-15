@@ -79,7 +79,7 @@ export function LoanApplicationDialog({ isOpen, onClose, token, onSuccess }: Loa
                 </h3>
                 <div className="grid grid-cols-2 gap-4 mt-4">
                   <div>
-                    <p className="text-sm text-gray-600">ความน่าจะเป็น</p>
+                    <p className="text-sm text-gray-600">ความเสี่ยงผิดนัด</p>
                     <p className="text-lg font-semibold">{(result.probability * 100).toFixed(2)}%</p>
                   </div>
                   <div>
@@ -134,7 +134,7 @@ export function LoanApplicationDialog({ isOpen, onClose, token, onSuccess }: Loa
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    วัตถุประสงค์
+                    วัตถุประสงค์การกู้
                     <span className="block text-xs text-gray-500 font-normal">(Purpose)</span>
                   </label>
                   <select
@@ -152,7 +152,7 @@ export function LoanApplicationDialog({ isOpen, onClose, token, onSuccess }: Loa
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    อัตราดอกเบี้ย
+                    อัตราดอกเบี้ยเงินกู้
                     <span className="block text-xs text-gray-500 font-normal">(Interest Rate)</span>
                   </label>
                   <input
