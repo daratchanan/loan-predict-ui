@@ -431,7 +431,7 @@ export function LoanApplicationDialog({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    นโยบายสินเชื่อ
+                    คุณสมบัติพื้นฐาน
                     <span className="block text-xs text-gray-500 font-normal">
                       (Credit Policy)
                     </span>
