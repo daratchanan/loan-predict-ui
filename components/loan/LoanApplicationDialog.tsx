@@ -236,7 +236,7 @@ export function LoanApplicationDialog({
   };
 
   if (!isOpen) return null;
-
+  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
@@ -282,41 +282,7 @@ export function LoanApplicationDialog({
                   </div>
                 </div>
               </div>
-              {/* <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold mb-2">ปัจจัยที่มีผลต่อการตัดสินใจ:</h4>
-                <div className="space-y-1">
-                  {Object.entries(result.explanation).map(([key, value]) => (
-                    <div key={key} className="flex justify-between text-sm">
-                      <span>{key}</span>
-                      <span className={Number(value) > 0 ? 'text-green-600' : 'text-red-600'}>
-                        {Number(value).toFixed(3)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div> */}
-              {/* <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold mb-2">ปัจจัยที่มีผลต่อการตัดสินใจ:</h4>
-                <div className="space-y-2">
-                  {Object.entries(result.explanation).map(([key, value]) => {
-                    const num = Number(value);
-                    const isPos = num > 0;
-                    return (
-                      <div key={key} className="text-sm">
-                        <div className="flex justify-between">
-                          <span>{toThai(String(key))}</span>
-                          <span className={isPos ? 'text-green-600' : 'text-red-600'}>
-                            {num.toFixed(3)}
-                          </span>
-                        </div>
-                        <div className="text-xs text-gray-500 mt-0.5">
-                          {explain(String(key), isPos)}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div> */}
+              
               {/* --- แทนที่บล็อก JSX เดิมด้วยอันนี้ (ไม่แสดงตัวเลข) --- */}
               <div className="bg-gray-50 p-4 rounded-lg">
                 <h4 className="font-semibold mb-3">
@@ -324,8 +290,13 @@ export function LoanApplicationDialog({
                 </h4>
 
                 {(() => {
-                  const items = Object.entries(result.explanation).map(
-                    ([key, value]) => {
+                  // …ในส่วน IIFE ที่ทำ items อยู่แล้ว…
+                  const activePurposeKey = `purpose_${formData.purpose}`;
+
+                  const items = Object.entries(result.explanation)
+                    // แสดงเฉพาะ purpose ที่ผู้ใช้เลือก
+                    .filter(([key]) => !/^purpose_/.test(key) || key === activePurposeKey)
+                    .map(([key, value]) => {
                       const num = Number(value);
                       const isPos = num > 0;
                       return {
@@ -334,8 +305,7 @@ export function LoanApplicationDialog({
                         label: toThai(String(key)),
                         desc: explain(String(key), isPos),
                       };
-                    }
-                  );
+                    });
 
                   const positives = items.filter((i) => i.isPos);
                   const negatives = items.filter((i) => !i.isPos);
