@@ -15,7 +15,12 @@ export default function AdminDashboardPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading) {
+      if (!user) {
+        router.push('/login');
+        return;
+      }
+
       const isAdmin = user.roles.some(role => role.name === 'admin');
       if (!isAdmin) {
         router.push('/loan-officer');
@@ -23,6 +28,7 @@ export default function AdminDashboardPage() {
     }
   }, [user, loading, router]);
 
+  // แสดง loading state
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -31,14 +37,22 @@ export default function AdminDashboardPage() {
     );
   }
 
+  // แสดง loading ระหว่างรอ redirect
   if (!user) {
-    router.push('/login');
-    return null;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-xl">กำลังโหลด...</div>
+      </div>
+    );
   }
 
   const isAdmin = user.roles.some(role => role.name === 'admin');
   if (!isAdmin) {
-    return null;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-xl">กำลังโหลด...</div>
+      </div>
+    );
   }
 
   return <AdminDashboard />;
