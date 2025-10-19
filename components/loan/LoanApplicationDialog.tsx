@@ -196,18 +196,18 @@ export function LoanApplicationDialog({
   const [result, setResult] = useState<any>(null);
   const [formData, setFormData] = useState<LoanApplication>({
     credit_policy: 1,
-    purpose: "debt_consolidation",
-    int_rate: 0.12,
-    installment: 500,
-    log_annual_inc: 11,
-    dti: 15,
-    fico: 700,
-    days_with_cr_line: 5000,
-    revol_bal: 20000,
-    revol_util: 50,
+    purpose: "small_business",
+    int_rate: 0.1028,
+    installment: 323.98,
+    log_annual_inc: 10.217422,
+    dti: 10.70,
+    fico: 712,
+    days_with_cr_line: 1379.0,
+    revol_bal: 3534,
+    revol_util: 54.4,
     inq_last_6mths: 0,
     delinq_2yrs: 0,
-    pub_rec: 0,
+    pub_rec: 0
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
