@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { LoanApplicationDialog } from '@/components/loan/LoanApplicationDialog';
+import { ApplicationDetailModal } from '@/components/loan/ApplicationDetailModal';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { FileText, TrendingUp, Calendar, LogOut, Plus, Filter, X } from 'lucide-react';
 
@@ -18,6 +19,8 @@ export function LoanOfficerDashboard() {
   const [modelPerformance, setModelPerformance] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedApplicationId, setSelectedApplicationId] = useState<number | null>(null);
   const [showFilters, setShowFilters] = useState(false);
 
   const [filters, setFilters] = useState({
@@ -96,6 +99,11 @@ export function LoanOfficerDashboard() {
     loadData({ ...buildQueryParams(), page: newPage });
   };
 
+  const handleRowClick = (applicationId: number) => {
+    setSelectedApplicationId(applicationId);
+    setIsDetailModalOpen(true);
+  };
+
   const COLORS = ['#10b981', '#ef4444', '#3b82f6', '#f59e0b'];
 
   if (loading) {
@@ -159,17 +167,6 @@ export function LoanOfficerDashboard() {
               <TrendingUp className="text-green-600" size={40} />
             </div>
           </div>
-
-          {/* <div className="bg-white p-6 rounded-lg shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Model Version</p>
-                <p className="text-lg font-bold text-gray-800">{modelPerformance?.model_version || 'N/A'}</p>
-                <p className="text-xs text-gray-500">Accuracy: {(modelPerformance?.accuracy * 100).toFixed(1)}%</p>
-              </div>
-              <Calendar className="text-blue-600" size={40} />
-            </div>
-          </div> */}
         </div>
 
         {/* Charts */}
@@ -193,7 +190,6 @@ export function LoanOfficerDashboard() {
                   ))}
                 </Pie>
                 <Tooltip />
-                {/* <Legend /> */}
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -210,45 +206,6 @@ export function LoanOfficerDashboard() {
             </ResponsiveContainer>
           </div>
         </div>
-
-        {/* Model Performance
-        {modelPerformance && (
-          <div className="bg-white p-6 rounded-lg shadow mb-6">
-            <h3 className="text-lg font-semibold mb-4">ประสิทธิภาพของโมเดล</h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              <div className="border-r pr-4">
-                <p className="text-sm text-gray-600">Accuracy</p>
-                <p className="text-xl font-bold text-gray-800">
-                  {(modelPerformance.accuracy * 100).toFixed(1)}%
-                </p>
-              </div>
-              <div className="border-r pr-4">
-                <p className="text-sm text-gray-600">Precision</p>
-                <p className="text-xl font-bold text-gray-800">
-                  {(modelPerformance.precision_class_1 * 100).toFixed(1)}%
-                </p>
-              </div>
-              <div className="border-r pr-4">
-                <p className="text-sm text-gray-600">Recall</p>
-                <p className="text-xl font-bold text-gray-800">
-                  {(modelPerformance.recall_class_1 * 100).toFixed(1)}%
-                </p>
-              </div>
-              <div className="border-r pr-4">
-                <p className="text-sm text-gray-600">F1 Score</p>
-                <p className="text-xl font-bold text-gray-800">
-                  {(modelPerformance.f1_score_class_1 * 100).toFixed(1)}%
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Threshold</p>
-                <p className="text-xl font-bold text-gray-800">
-                  {modelPerformance.optimal_threshold?.toFixed(2)}
-                </p>
-              </div>
-            </div>
-          </div>
-        )} */}
 
         {/* Recent Applications Table with Filters */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -403,7 +360,11 @@ export function LoanOfficerDashboard() {
               <tbody className="divide-y divide-gray-200">
                 {dashboardData?.recent_applications?.items?.length > 0 ? (
                   dashboardData.recent_applications.items.map((app: any) => (
-                    <tr key={app.id} className="hover:bg-gray-50">
+                    <tr 
+                      key={app.id} 
+                      onClick={() => handleRowClick(app.id)}
+                      className="hover:bg-gray-50 cursor-pointer transition-colors"
+                    >
                       <td className="px-6 py-4 text-sm text-gray-900">{app.id}</td>
                       <td className="px-6 py-4 text-sm text-gray-600">
                         {new Date(app.application_date).toLocaleDateString('th-TH', {
@@ -504,12 +465,21 @@ export function LoanOfficerDashboard() {
       </main>
 
       {token && (
-        <LoanApplicationDialog
-          isOpen={isDialogOpen}
-          onClose={() => setIsDialogOpen(false)}
-          token={token}
-          onSuccess={loadData}
-        />
+        <>
+          <LoanApplicationDialog
+            isOpen={isDialogOpen}
+            onClose={() => setIsDialogOpen(false)}
+            token={token}
+            onSuccess={loadData}
+          />
+
+          <ApplicationDetailModal
+            isOpen={isDetailModalOpen}
+            onClose={() => setIsDetailModalOpen(false)}
+            applicationId={selectedApplicationId}
+            token={token}
+          />
+        </>
       )}
     </div>
   );

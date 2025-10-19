@@ -8,12 +8,6 @@
 import { useState } from "react";
 import { api, LoanApplication } from "@/lib/api";
 import { X } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 const factorMap: Array<{
   match: RegExp;

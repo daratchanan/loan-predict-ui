@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { LoanApplicationDialog } from '@/components/loan/LoanApplicationDialog';
+import { ApplicationDetailModal } from '@/components/loan/ApplicationDetailModal';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { FileText, TrendingUp, Calendar, RefreshCw, LogOut, Plus, Filter, X } from 'lucide-react';
 
@@ -18,6 +19,8 @@ export function AdminDashboard() {
   const [modelPerformance, setModelPerformance] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedApplicationId, setSelectedApplicationId] = useState<number | null>(null);
   const [retraining, setRetraining] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
 
@@ -111,6 +114,11 @@ export function AdminDashboard() {
     }
   };
 
+  const handleRowClick = (applicationId: number) => {
+    setSelectedApplicationId(applicationId);
+    setIsDetailModalOpen(true);
+  };
+
   const COLORS = ['#10b981', '#ef4444', '#3b82f6', '#f59e0b'];
 
   if (loading) {
@@ -149,8 +157,6 @@ export function AdminDashboard() {
           </div>
         </div>
       </header>
-
-      
 
       <main className="max-w-7xl mx-auto px-4 py-6">
 
@@ -192,7 +198,6 @@ export function AdminDashboard() {
             </div>
           </div>
         )}
-
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -251,7 +256,6 @@ export function AdminDashboard() {
                   ))}
                 </Pie>
                 <Tooltip />
-                {/* <Legend /> */}
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -268,7 +272,6 @@ export function AdminDashboard() {
             </ResponsiveContainer>
           </div>
         </div>
-
 
         {/* Recent Applications Table with Filters */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -423,7 +426,11 @@ export function AdminDashboard() {
               <tbody className="divide-y divide-gray-200">
                 {dashboardData?.recent_applications?.items?.length > 0 ? (
                   dashboardData.recent_applications.items.map((app: any) => (
-                    <tr key={app.id} className="hover:bg-gray-50">
+                    <tr 
+                      key={app.id} 
+                      onClick={() => handleRowClick(app.id)}
+                      className="hover:bg-gray-50 cursor-pointer transition-colors"
+                    >
                       <td className="px-6 py-4 text-sm text-gray-900">{app.id}</td>
                       <td className="px-6 py-4 text-sm text-gray-600">
                         {new Date(app.application_date).toLocaleDateString('th-TH', {
@@ -524,12 +531,21 @@ export function AdminDashboard() {
       </main>
 
       {token && (
-        <LoanApplicationDialog
-          isOpen={isDialogOpen}
-          onClose={() => setIsDialogOpen(false)}
-          token={token}
-          onSuccess={loadData}
-        />
+        <>
+          <LoanApplicationDialog
+            isOpen={isDialogOpen}
+            onClose={() => setIsDialogOpen(false)}
+            token={token}
+            onSuccess={loadData}
+          />
+
+          <ApplicationDetailModal
+            isOpen={isDetailModalOpen}
+            onClose={() => setIsDetailModalOpen(false)}
+            applicationId={selectedApplicationId}
+            token={token}
+          />
+        </>
       )}
     </div>
   );

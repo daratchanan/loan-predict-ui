@@ -50,6 +50,17 @@ export interface PredictionResponse {
   explanation: Record<string, number>;
 }
 
+export interface ApplicationDetail {
+  id: number;
+  application_date: string;
+  fico: number;
+  purpose: string;
+  int_rate: number;
+  model_prediction: number;
+  model_probability: number;
+  lime_explanation: Record<string, number>;
+}
+
 export const api = {
   async login(credentials: LoginCredentials): Promise<TokenResponse> {
     const formData = new URLSearchParams();
@@ -141,6 +152,20 @@ export const api = {
 
     if (!response.ok) {
       throw new Error('ไม่สามารถดึงข้อมูล Model Performance ได้');
+    }
+
+    return response.json();
+  },
+
+  async getApplicationDetail(token: string, id: number): Promise<ApplicationDetail> {
+    const response = await fetch(`${API_BASE_URL}/applications/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('ไม่สามารถดึงข้อมูลใบสมัครได้');
     }
 
     return response.json();
