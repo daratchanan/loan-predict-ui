@@ -209,7 +209,7 @@ export function AdminDashboard() {
           <div className="bg-white p-6 rounded-lg shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">อัตราการอนุมัติ (30 วัน)</p>
+                <p className="text-sm text-gray-600">อัตราการอนุมัติ</p>
                 <p className="text-3xl font-bold text-green-600">
                   {dashboardData?.approval_rate_30_days?.toFixed(1) || 0}%
                 </p>
