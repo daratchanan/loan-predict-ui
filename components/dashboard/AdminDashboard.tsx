@@ -417,7 +417,7 @@ export function AdminDashboard() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">วัตถุประสงค์</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ดอกเบี้ย</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ผลการพิจารณา</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ความน่าจะเป็น</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ความเสี่ยงผิดนัด</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">

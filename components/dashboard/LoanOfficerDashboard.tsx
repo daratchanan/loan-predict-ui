@@ -151,7 +151,7 @@ export function LoanOfficerDashboard() {
           <div className="bg-white p-6 rounded-lg shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">อัตราการอนุมัติ (30 วัน)</p>
+                <p className="text-sm text-gray-600">อัตราการอนุมัติ</p>
                 <p className="text-3xl font-bold text-green-600">
                   {dashboardData?.approval_rate_30_days?.toFixed(1) || 0}%
                 </p>
@@ -397,7 +397,7 @@ export function LoanOfficerDashboard() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">วัตถุประสงค์</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ดอกเบี้ย</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ผลการพิจารณา</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ความน่าจะเป็น</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ความเสี่ยงผิดนัด</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
